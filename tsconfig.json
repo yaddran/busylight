@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "sourceMap": false,
+        "baseUrl": ".",
+        "outDir": "./dist",
+        "declaration": true,
+        "noUnusedLocals": true
+    },
+    "include": ["src/**/*"]
+}

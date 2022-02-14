@@ -1,0 +1,89 @@
+{
+    "$schema": "./node_modules/@pureit/brica/brica.schema.json",
+    "pre_build": {
+        "title": "Pre build step",
+        "description": "Creates and cleans distribution and help files",
+        "flags": [
+            "title",
+            "description"
+        ],
+        "actions": [
+            {
+                "action": "mkdir",
+                "title": "Create dist folder",
+                "flags": ["title"],
+                "target": "./dist"
+            },
+            {
+                "action": "rm",
+                "title": "Clean dist folder",
+                "flags": ["title"],
+                "target": "./dist/"
+            }
+        ]
+    },
+    "post_build": {
+        "title": "Post build step",
+        "description": "Copy static files, adjust them for publishing and cleans the distribution",
+        "flags": [
+            "title",
+            "description"
+        ],
+        "actions": [
+            {
+                "action": "rm",
+                "title": "Remove LICENSE and unused d.ts files",
+                "target": "./dist/",
+                "exclude": [
+                    { "name": "brica\\.d\\.ts", "flags": "i", "dir": false }
+                ],
+                "include": [
+                    { "name": ".*\\.d\\.ts", "flags": "i", "dir": false },
+                    { "name": "license", "flags": "i", "dir": false }
+                ]
+            },
+            {
+                "action": "cp",
+                "title": "Copy package.json",
+                "flags": ["title"],
+                "target": "./dist",
+                "source": "./package.json"
+            },
+            {
+                "action": "sed",
+                "title": "Update package.json scripts and dependencies",
+                "flags": ["title"],
+                "target": "./dist/package.json",
+                "replace": [
+                    { "find": "\"scripts\"[^{]*{[^}]*}", "flags": "", "replace": "\"scripts\": {}" },
+                    { "find": "\"devDependencies\"[^{]*{[^}]*}", "flags": "", "replace": "\"devDependencies\": {}"}
+                ]
+            },
+            {
+                "action": "cp",
+                "title": "Copy README.md",
+                "flags": ["title"],
+                "target": "./dist",
+                "source": "./README.md"
+            },
+            {
+                "action": "cp",
+                "title": "Adding LICENSE",
+                "flags": ["title"],
+                "target": "./dist",
+                "source": "./LICENSE"
+            },
+            {
+                "action": "sed",
+                "title": "Update LICENSE with package info",
+                "flags": ["title"],
+                "target": "./dist/LICENSE",
+                "replace": [
+                    { "find": "#version#", "flags": "g", "json": "./dist/package.json", "property": ["version"] },
+                    { "find": "#name#", "flags": "g", "json": "./dist/package.json", "property": ["name"] },
+                    { "find": "#author#", "flags": "g", "json": "./dist/package.json", "property": ["author"] }
+                ]
+            }
+        ]
+    }
+}

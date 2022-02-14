@@ -1,0 +1,39 @@
+{
+    "name": "@pureit/busylight",
+    "version": "1.0.0",
+    "description": "Busylight for NodeJS",
+    "main": "busylight.js",
+    "scripts": {
+        "lint": "eslint --ext .ts ./src",
+        "build": "brica pre_build && tsc && brica post_build",
+        "login": "npm login",
+        "publish": "cd dist && npm publish --access public",
+        "test": "node test/test.js"
+    },
+    "keywords": [
+        "busylight",
+        "kuando",
+        "plenom",
+        "alpha",
+        "box",
+        "omega"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yaddran/busylight.git"
+    },
+    "homepage": "https://github.com/yaddran/busylight/",
+    "author": "Pure IT Solutions",
+    "license": "ISC",
+    "dependencies": {
+        "node-hid": "^2.1.1"
+    },
+    "devDependencies": {
+        "@types/node": "^16.7.6",
+        "@typescript-eslint/eslint-plugin": "^4.16.1",
+        "@typescript-eslint/parser": "^4.16.1",
+        "eslint": "^7.21.0",
+        "typescript": "~4.4.4",
+        "@pureit/brica": "^1.0.6"
+    }
+}
