@@ -103,15 +103,20 @@ const testLight = () => {
     console.log();
     console.log('Light test (15sec)');
 
-    busylight.light('ff0000');
+    busylight.intesity(100);
+    busylight.light('440000');
     setTimeout(() => {
-        busylight.light('ffff00');
+        busylight.intesity(75);
+        busylight.light('440000');
         setTimeout(() => {
-            busylight.light('ffffff');
+            busylight.intesity(50);
+            busylight.light('440000');
             setTimeout(() => {
-                busylight.light('00ffff');
+                busylight.intesity(25);
+                busylight.light('004444');
                 setTimeout(() => {
-                    busylight.light('0000ff');
+                    busylight.intesity(0);
+                    busylight.light('009999');
                     setTimeout(() => {
                         busylight.disconnect();
                     }, 3000);
@@ -175,8 +180,8 @@ open();
 
 //testSound();
 
-//testLight();
+testLight();
 
 //testTone();
 
-testToneWithLight();
+//testToneWithLight();

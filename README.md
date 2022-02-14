@@ -38,6 +38,11 @@ Turn on red light:
 busylight.light('ff0000');
 ```
 
+Set intesity for light (0-100):
+```
+busylight.intesity(50);
+```
+
 Sound tone 4 with volume 3:
 ```
 busylight.tone(4, 3);

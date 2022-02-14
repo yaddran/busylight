@@ -97,6 +97,7 @@ class BusyLight {
     private _b: number = 0;
     private _tone: number = -1;
     private _volume: number = -1;
+    private _intesity: number = 100;
 
     constructor(device: BusyLightDevice) {
         if (!device) return;
@@ -222,6 +223,12 @@ class BusyLight {
         this._send(this._steps);
     }
 
+    public intesity(value: number): void {
+        if (value < 0) value = 0;
+        if (value > 100) value = 100;
+        this._intesity = value;
+    }
+
     public light(color: string): boolean {
         if (!color) return false;
         if (color.charAt(0) === '#') color = color.substring(1);
@@ -232,9 +239,9 @@ class BusyLight {
         if (isNaN(r)) return false;
         if (isNaN(g)) return false;
         if (isNaN(b)) return false;
-        this._r = r;
-        this._g = g;
-        this._b = b;
+        this._r = Math.trunc(r * this._intesity / 100);
+        this._g = Math.trunc(g * this._intesity / 100);
+        this._b = Math.trunc(b * this._intesity / 100);
         this._build_steps([{
             cmd: 'jump',
             cmdv: 0,
