@@ -45,7 +45,7 @@ busylight.tone(4, 3);
 
 Send a program:
 - dimmed red light for 1s (0x0A x 0.1s), off for 2s (0x14 x 0.1s), stop tone, repeat 3 times and jump to step 1
-- dimmed green light for 1s, off for 1 sec, tone 5 with volume 2, repeat 4 and jump to step 0
+- dimmed green light for 1s, off for 1 sec, tone 5 with volume 2, repeat 4 times and jump to step 0
 ```
     busylight.program([
         {
