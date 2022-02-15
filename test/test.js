@@ -154,7 +154,7 @@ const testToneWithLight = () => {
     if (!busylight) return;
 
     console.log();
-    console.log('Light test (15sec)');
+    console.log('Tone and light test (15sec)');
 
     busylight.tone(1, 1);
     setTimeout(() => {
@@ -174,6 +174,20 @@ const testToneWithLight = () => {
     }, 3000);
 };
 
+const testToneOnce = (tone) => {
+    if (!busylight) return;
+
+    const length = busylight.once(tone, 1);
+    if (length < 0) {
+        busylight.disconnect();
+        return;
+    }
+
+    console.log('Playing tone ' + tone + ' with lenth ' + length + 'ms');
+
+    setTimeout(() => { testToneOnce(tone + 1); }, length + 200);
+};
+
 open();
 
 //testProgram();
@@ -184,4 +198,6 @@ open();
 
 //testTone();
 
-testToneWithLight();
+//testToneWithLight();
+
+testToneOnce(0);

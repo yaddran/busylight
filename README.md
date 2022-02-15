@@ -1,12 +1,16 @@
 # BusyLight Library for controlling busy light devices
 
-This library can be used to control Busy Light devices. Currently supported devices:
-- Kuando / Plenom BusyLight Alpha (Vendor ID 0x27BB. Product ID 0x3BCA)
-- Kuando / Plenom BusyLight UC (Vendor ID 0x27BB. Product ID 0x3BCB)
-- Kuando / Plenom Kuando Box (Vendor ID 0x27BB. Product ID 0x3BCC)
-- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCD)
-- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCE ?)
-- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCF)
+This library can be used to control Busy Light devices (for instance in your electron js application or any other node js project).
+
+Currently supported devices:
+- Kuando / Plenom BusyLight Alpha (Vendor ID 0x27BB Product ID 0x3BCA)
+- Kuando / Plenom BusyLight UC (Vendor ID 0x27BB Product ID 0x3BCB)
+- Kuando / Plenom Kuando Box (Vendor ID 0x27BB Product ID 0x3BCC)
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCD)
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCE ?)
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCF)
+
+If you are willing to donate a busy light device we are willing to try to support it as well (yaddran at g mail dot com).
 
 Dependency: node-hid
 
@@ -48,6 +52,11 @@ busylight.intesity(50);
 Sound tone 4 with volume 3:
 ```
 busylight.tone(4, 3);
+```
+
+Sound tone 5 once with volume 1:
+```
+duration_ms = busylight.once(5, 1);
 ```
 
 Send a program:

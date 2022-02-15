@@ -51,6 +51,93 @@ class BusyLight {
         jump:       0x10
     };
 
+    private static TONE_LEN = {
+        0x3BCA: {
+            0x00: 5700,
+            0x01: 2400,
+            0x02: 2400,
+            0x03: 3000,
+            0x04: 4500,
+            0x05: 3900,
+            0x06: 3500,
+            0x07: 2200,
+            0x08: 2200,
+            0x09: 2000,
+            0x0A: 2000,
+            0x0B: 2400
+        },
+        0x3BCB: {
+            0x00: 5700,
+            0x01: 2400,
+            0x02: 2400,
+            0x03: 3000,
+            0x04: 4500,
+            0x05: 3900,
+            0x06: 3500,
+            0x07: 2200,
+            0x08: 2200,
+            0x09: 2000,
+            0x0A: 2000,
+            0x0B: 2400
+        },
+        0x3BCC: {
+            0x00: 5700,
+            0x01: 2400,
+            0x02: 2400,
+            0x03: 3000,
+            0x04: 4500,
+            0x05: 3900,
+            0x06: 3500,
+            0x07: 2200,
+            0x08: 2200,
+            0x09: 2000,
+            0x0A: 2000,
+            0x0B: 2400
+        },
+        0x3BCD: {
+            0x00: 5700,
+            0x01: 2400,
+            0x02: 2400,
+            0x03: 3000,
+            0x04: 4500,
+            0x05: 3900,
+            0x06: 3500,
+            0x07: 2200,
+            0x08: 2200,
+            0x09: 2000,
+            0x0A: 2000,
+            0x0B: 2400
+        },
+        0x3BCE: {
+            0x00: 5700,
+            0x01: 2400,
+            0x02: 2400,
+            0x03: 3000,
+            0x04: 4500,
+            0x05: 3900,
+            0x06: 3500,
+            0x07: 2200,
+            0x08: 2200,
+            0x09: 2000,
+            0x0A: 2000,
+            0x0B: 2400
+        },
+        0x3BCF: {
+            0x00: 5700,
+            0x01: 2400,
+            0x02: 2400,
+            0x03: 3000,
+            0x04: 4500,
+            0x05: 3900,
+            0x06: 3500,
+            0x07: 2200,
+            0x08: 2200,
+            0x09: 2000,
+            0x0A: 2000,
+            0x0B: 2400
+        }
+    }
+
     private static KEEPALIVE: Array<number> = [
         0x8F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -98,6 +185,8 @@ class BusyLight {
     private _tone: number = -1;
     private _volume: number = -1;
     private _intesity: number = 100;
+
+    private _once_timer: any = null;
 
     constructor(device: BusyLightDevice) {
         if (!device) return;
@@ -213,12 +302,16 @@ class BusyLight {
     }
 
     public program(steps: BusyLightSteps): void {
+        if (this._once_timer) clearTimeout(this._once_timer);
+        this._once_timer = null;
         this._send(BusyLight.OFF);
         this._build_steps(steps);
         this._send(this._steps);
     }
 
     public off(): void {
+        if (this._once_timer) clearTimeout(this._once_timer);
+        this._once_timer = null;
         this._steps = BusyLight.OFF.concat([]);
         this._send(this._steps);
     }
@@ -260,6 +353,8 @@ class BusyLight {
     }
 
     public tone(tone: number, volume: number): boolean {
+        if (this._once_timer) clearTimeout(this._once_timer);
+        this._once_timer = null;
         this._tone = tone;
         this._volume = volume;
         this._build_steps([{
@@ -291,6 +386,31 @@ class BusyLight {
         }]);
         this._send(this._steps);
         return true;
+    }
+
+    public once(tone: number, volume: number): number {
+        if (!this._device) return -1;
+        if (!BusyLight.TONE_LEN[this._device.productId]) return -1;
+        if (!BusyLight.TONE_LEN[this._device.productId][tone]) return -1;
+        this.tone(tone, volume);
+        this._once_timer = setTimeout(() => {
+            this._once_timer = null;
+            this._build_steps([{
+                cmd: 'jump',
+                cmdv: 0,
+                repeat: 0,
+                red: this._r,
+                green: this._g,
+                blue: this._b,
+                on: 0x00,
+                off: 0x00,
+                audio: true,
+                tone: -1,
+                volume: -1
+            }]);
+            this._send(this._steps);
+        }, BusyLight.TONE_LEN[this._device.productId][tone]);
+        return BusyLight.TONE_LEN[this._device.productId][tone];
     }
 
     public disconnect(): void {
