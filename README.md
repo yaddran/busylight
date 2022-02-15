@@ -10,8 +10,6 @@ Currently supported devices:
 - Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCE ?)
 - Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCF)
 
-If you are willing to donate a busy light device we are willing to try to support it as well (yaddran at g mail dot com).
-
 Dependency: node-hid
 
 ## Install
