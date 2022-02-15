@@ -20,7 +20,7 @@ npm install @pureit/busylight
 
 Get supported devices:
 ```
-const BusyLight = require('../dist/busylight').BusyLight;
+const BusyLight = require('@pureit/busylight').BusyLight;
 const devices = BusyLight.devices();
 ```
 
@@ -83,3 +83,8 @@ Send a program:
         }
     ]);
 ```
+
+## Coverage
+We have been able to test this library with:
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCD)
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCF)

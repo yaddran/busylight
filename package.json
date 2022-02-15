@@ -1,6 +1,6 @@
 {
     "name": "@pureit/busylight",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Busylight for NodeJS",
     "main": "busylight.js",
     "scripts": {
