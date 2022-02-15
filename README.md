@@ -5,6 +5,8 @@ This library can be used to control Busy Light devices. Currently supported devi
 - Kuando / Plenom BusyLight UC (Vendor ID 0x27BB. Product ID 0x3BCB)
 - Kuando / Plenom Kuando Box (Vendor ID 0x27BB. Product ID 0x3BCC)
 - Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCD)
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCE ?)
+- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB. Product ID 0x3BCF)
 
 Dependency: node-hid
 

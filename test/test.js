@@ -83,7 +83,7 @@ const testSound = () => {
                 red: 0x05,
                 green: 0x00,
                 blue: 0x05,
-                on: 0x00,
+                on: 0xff,
                 off: 0x00,
                 audio: true,
                 tone: count,
@@ -180,8 +180,8 @@ open();
 
 //testSound();
 
-testLight();
+//testLight();
 
 //testTone();
 
-//testToneWithLight();
+testToneWithLight();

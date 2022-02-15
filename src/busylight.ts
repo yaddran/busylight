@@ -42,7 +42,7 @@ class BusyLight {
     private static KEEPALIVE_SEC = 5;
     private static STEPS_COUNT = 7;
     private static VENDORID = 0x27BB;
-    private static PRODUCTS = [0x3BCA, 0x3BCB, 0x3BCC, 0x3BCD];
+    private static PRODUCTS = [0x3BCA, 0x3BCB, 0x3BCC, 0x3BCD, 0x3BCE, 0x3BCF];
 
     private static CMDS = {
         keepalive:  0x80,
@@ -249,11 +249,11 @@ class BusyLight {
             red: this._r,
             green: this._g,
             blue: this._b,
-            on: 0x00,
+            on: 0xff,
             off: 0x00,
-            audio: true,
-            tone: this._tone,
-            volume: this._volume
+            audio: false,
+            tone: 0,
+            volume: 0
         }]);
         this._send(this._steps);
         return true;
@@ -283,11 +283,11 @@ class BusyLight {
             red: this._r,
             green: this._g,
             blue: this._b,
-            on: 0x00,
+            on: 0xff,
             off: 0x00,
             audio: true,
-            tone: tone,
-            volume: volume
+            tone: this._tone,
+            volume: this._volume
         }]);
         this._send(this._steps);
         return true;
