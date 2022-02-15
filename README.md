@@ -32,6 +32,11 @@ const busylight = new BusyLight(devices[0]);
 busylight.connect();
 ```
 
+Check if device is one of the devices from the list:
+```
+is_the_device = busylight.is(devices[0]);
+```
+
 Turn all off:
 ```
 busylight.off();
@@ -56,6 +61,7 @@ Sound tone 5 once with volume 1:
 ```
 duration_ms = busylight.once(5, 1);
 ```
+
 
 Send a program:
 - dimmed red light for 1s (0x0A x 0.1s), off for 2s (0x14 x 0.1s), stop tone, repeat 3 times and jump to step 1

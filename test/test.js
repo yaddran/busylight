@@ -188,6 +188,22 @@ const testToneOnce = (tone) => {
     setTimeout(() => { testToneOnce(tone + 1); }, length + 200);
 };
 
+
+const testIsDevice = (tone) => {
+    if (!busylight) return;
+
+    const devices = BusyLight.devices();
+    if (devices.length === 0) {
+        console.log('No devices found');
+        return;
+    }
+    const selected = devices[0];
+
+    console.log('Is this device: ' + busylight.is(selected));
+
+    busylight.disconnect();
+};
+
 open();
 
 //testProgram();
@@ -200,4 +216,6 @@ open();
 
 //testToneWithLight();
 
-testToneOnce(0);
+//testToneOnce(0);
+
+testIsDevice();

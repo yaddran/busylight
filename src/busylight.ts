@@ -413,6 +413,12 @@ class BusyLight {
         return BusyLight.TONE_LEN[this._device.productId][tone];
     }
 
+    public is(device: BusyLightDevice): boolean {
+        if (!device) return false;
+        if (!this._device) return false;
+        return device.path === this._device.path;
+    }
+
     public disconnect(): void {
         if (this._keepalive) clearInterval(this._keepalive);
         this._keepalive = null;
