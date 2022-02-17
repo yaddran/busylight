@@ -205,13 +205,48 @@ const testIsDevice = (tone) => {
     busylight.disconnect();
 };
 
+const testPulse = (tone) => {
+    if (!busylight) return;
+
+    busylight.tone(1, 1);
+    busylight.pulse('440044');
+
+    setTimeout(() => {
+        busylight.disconnect();
+    }, 10000);
+};
+
+const testBlink = (tone) => {
+    if (!busylight) return;
+
+    busylight.tone(1, 1);
+    busylight.blink('440044', 5, 2);
+
+    setTimeout(() => {
+        busylight.disconnect();
+    }, 10000);
+};
+
+const testAlert = (tone) => {
+    if (!busylight) return;
+
+    busylight.alert(1, 1, '440044', true, 5, 2);
+
+    setTimeout(() => {
+        busylight.alert(2, 1, '440000', false);
+        setTimeout(() => {
+            busylight.disconnect();
+        }, 10000);
+    }, 10000);
+};
+
 open();
 
 //testProgram();
 
 //testSound();
 
-testLight();
+//testLight();
 
 //testTone();
 
@@ -220,3 +255,9 @@ testLight();
 //testToneOnce(0);
 
 //testIsDevice();
+
+// testPulse();
+
+// testBlink();
+
+testAlert();

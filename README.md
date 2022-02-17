@@ -67,6 +67,25 @@ Sound tone 5 once with volume 1:
 duration_ms = busylight.once(5, 1);
 ```
 
+Blink blue color, 0.5 sec (5 * 0.1s) on and 0.2 sec (2 * 0.1s) off:
+```
+busylight.blink('#000044', 5, 2);
+```
+
+Pulse green color:
+```
+busylight.pulse('#004400');
+```
+
+Alert with tone 2, volume 1, blinking red 0.5 sec (5 * 0.1s) on and 0.3 sec (3 * 0.1s) off
+```
+busylight.alert(2, 1, '#ff0000', true, 5, 3);
+```
+
+Alert with tone 3, volume 1, pulsing red
+```
+busylight.alert(3, 1, '#ff0000', false);
+```
 
 Send a program:
 - dimmed red light for 1s (0x0A x 0.1s), off for 2s (0x14 x 0.1s), stop tone, repeat 3 times and jump to step 1

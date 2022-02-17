@@ -368,6 +368,90 @@ class BusyLight {
         return true;
     }
 
+    public blink(color: string, on: number, off: number): boolean {
+        if (!color) return false;
+        if (color.charAt(0) === '#') color = color.substring(1);
+        if (color.length < 6) return false;
+        const r: number = parseInt(color.substring(0, 2), 16);
+        const g: number = parseInt(color.substring(2, 4), 16);
+        const b: number = parseInt(color.substring(4, 6), 16);
+        if (isNaN(r)) return false;
+        if (isNaN(g)) return false;
+        if (isNaN(b)) return false;
+        this._r = Math.trunc(r * this._intesity / 100);
+        this._g = Math.trunc(g * this._intesity / 100);
+        this._b = Math.trunc(b * this._intesity / 100);
+        this._build_steps([{
+            cmd: 'jump',
+            cmdv: 0,
+            repeat: 0,
+            red: this._r,
+            green: this._g,
+            blue: this._b,
+            on: on,
+            off: off,
+            audio: false,
+            tone: 0,
+            volume: 0
+        }]);
+        this._send(this._steps);
+        return true;
+    }
+
+    public pulse(color: string): boolean {
+        if (!color) return false;
+        if (color.charAt(0) === '#') color = color.substring(1);
+        if (color.length < 6) return false;
+        const r: number = parseInt(color.substring(0, 2), 16);
+        const g: number = parseInt(color.substring(2, 4), 16);
+        const b: number = parseInt(color.substring(4, 6), 16);
+        if (isNaN(r)) return false;
+        if (isNaN(g)) return false;
+        if (isNaN(b)) return false;
+        this._r = Math.trunc(r * this._intesity / 100);
+        this._g = Math.trunc(g * this._intesity / 100);
+        this._b = Math.trunc(b * this._intesity / 100);
+        const steps: BusyLightSteps = [];
+        let step: number = 0;
+
+        for (let si = 1; si <= 4; si = si + 1) {
+            steps.push({
+                cmd: 'jump',
+                cmdv: step < 6 ? step + 1 : 0,
+                repeat: 0,
+                red: Math.trunc(si * this._r / 4),
+                green: Math.trunc(si * this._g / 4),
+                blue: Math.trunc(si * this._b / 4),
+                on: 0x01,
+                off: 0x00,
+                audio: false,
+                tone: 0,
+                volume: 0
+            });
+            step = step + 1;
+        }
+        for (let si = 5; si >= 2; si = si - 1) {
+            steps.push({
+                cmd: 'jump',
+                cmdv: step < 6 ? step + 1 : 0,
+                repeat: 0,
+                red: Math.trunc(si * this._r / 7),
+                green: Math.trunc(si * this._g / 7),
+                blue: Math.trunc(si * this._b / 7),
+                on: 0x01,
+                off: 0x00,
+                audio: false,
+                tone: 0,
+                volume: 0
+            });
+            step = step + 1;
+        }
+
+        this._build_steps(steps);
+        this._send(this._steps);
+        return true;
+    }
+
     public tone(tone: number, volume: number): boolean {
         if (this._once_timer) clearTimeout(this._once_timer);
         this._once_timer = null;
@@ -402,6 +486,12 @@ class BusyLight {
         }]);
         this._send(this._steps);
         return true;
+    }
+
+    public alert(tone: number, volume: number, color: string, blinkpulse: boolean = true, on: number = 4, off: number = 3) {
+        this.tone(tone, volume);
+        if (blinkpulse) return this.blink(color, on, off);
+        this.pulse(color);
     }
 
     public once(tone: number, volume: number): number {
