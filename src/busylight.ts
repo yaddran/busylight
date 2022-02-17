@@ -32,6 +32,17 @@ interface BusyLightStep {
 
 type BusyLightSteps = Array<BusyLightStep>;
 
+interface BusyLightResponse {
+    activity?: boolean;
+    product?: string;
+    customer?: string;
+    model?: string;
+    serial?: string;
+    manufacturer?: string;
+    date?: string;
+    software?: string;
+}
+
 /**
  * Main class for busylight.
  *
@@ -146,7 +157,7 @@ class BusyLight {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00
+        0x04, 0x04, 0x55, 0xFF, 0xFF, 0xFF, 0x00, 0x00
     ];
 
     private static OFF: Array<number> = [
@@ -178,6 +189,7 @@ class BusyLight {
     private _hid: any = null;
     private _keepalive: any = null;
     private _steps: Array<number> = BusyLight.OFF.concat([]);
+    private _response: Array<number> = [];
 
     private _r: number = 0;
     private _g: number = 0;
@@ -196,6 +208,10 @@ class BusyLight {
     private _connect(): void {
         try {
             this._hid = new HID.HID(this._device.path);
+            this._hid.on('data', (data: Buffer) => {
+                if (!data) return;
+                this._response = Array.from(data);
+            });
             this._send(this._steps);
         } catch (ignore) {
             this._hid = null;
@@ -429,6 +445,30 @@ class BusyLight {
         this._hid = null;
     }
 
+    private _b2s(data: Array<number>, f: number, t: number): string {
+        if (!Array.isArray(data)) return '';
+        if (!data[f]) return '';
+        if (!data[t]) return '';
+        let result: string = '';
+        for (let ci = f; ci <= t; ci = ci + 1)
+            result = result + String.fromCharCode(data[ci]);
+        return result;
+    }
+
+    public response(): BusyLightResponse {
+        const response: BusyLightResponse = {};
+        if (this._response.length === 0) return response;
+        response.activity = this._b2s(this._response, 0, 0) === '1';
+        response.product = this._b2s(this._response, 1, 3) === '001' ? 'Busylight' : 'Kuando Box';
+        response.customer = this._b2s(this._response, 4, 11);
+        response.model = this._b2s(this._response, 12, 15);
+        response.serial = this._b2s(this._response, 16, 23);
+        response.manufacturer = this._b2s(this._response, 24, 31);
+        response.date = this._b2s(this._response, 32, 39);
+        response.software = this._b2s(this._response, 40, 45);
+        return response;
+    }
+
 }
 
-export { BusyLightDevice, BusyLightDevices, BusyLightStep, BusyLightSteps, BusyLight };
+export { BusyLightDevice, BusyLightDevices, BusyLightStep, BusyLightSteps, BusyLightResponse, BusyLight };

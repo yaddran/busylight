@@ -105,6 +105,7 @@ const testLight = () => {
 
     busylight.intesity(100);
     busylight.light('440000');
+    setTimeout(() => { console.log(busylight.response()); }, 1000);
     setTimeout(() => {
         busylight.intesity(75);
         busylight.light('440000');
@@ -210,7 +211,7 @@ open();
 
 //testSound();
 
-//testLight();
+testLight();
 
 //testTone();
 
@@ -218,4 +219,4 @@ open();
 
 //testToneOnce(0);
 
-testIsDevice();
+//testIsDevice();

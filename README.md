@@ -7,8 +7,8 @@ Currently supported devices:
 - Kuando / Plenom BusyLight UC (Vendor ID 0x27BB Product ID 0x3BCB)
 - Kuando / Plenom Kuando Box (Vendor ID 0x27BB Product ID 0x3BCC)
 - Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCD)
-- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCE ?)
-- Kuando / Plenom BusyLight Omega (Vendor ID 0x27BB Product ID 0x3BCF)
+- Kuando / Plenom BusyLight Alpha 2 (Vendor ID 0x27BB Product ID 0x3BCE)
+- Kuando / Plenom BusyLight Omega 2 (Vendor ID 0x27BB Product ID 0x3BCF)
 
 Dependency: node-hid
 
@@ -35,6 +35,11 @@ busylight.connect();
 Check if device is one of the devices from the list:
 ```
 is_the_device = busylight.is(devices[0]);
+```
+
+Get device response
+```
+response = busylight.response();
 ```
 
 Turn all off:
