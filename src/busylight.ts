@@ -168,7 +168,7 @@ class BusyLight {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00
+        0x04, 0x04, 0x55, 0xFF, 0xFF, 0xFF, 0x00, 0x00
     ];
 
 
@@ -224,15 +224,23 @@ class BusyLight {
         this._send(BusyLight.KEEPALIVE);
     }
 
-    private _checksumed(data: Array<number>): Array<number> {
+    private _checksumed(data: Array<number>): Uint8Array {
+        const bytes: Uint8Array = new Uint8Array(data.length + 1);
+        bytes[0] = 0;
+        data.forEach((v, i) => {
+            bytes[i + 1] = v & 0xFF;
+        });
+        bytes[60] = 0xFF;
+        bytes[61] = 0xFF;
+        bytes[62] = 0xFF;
         let cs = 0;
         data.forEach((v, i) => {
-            if (i > 61) return;
-            cs = cs + v;
+            if (i > 62) return;
+            cs = cs + bytes[i];
         });
-        data[62] = (cs >> 8) & 0xFF;
-        data[63] = cs & 0xFF;
-        return data;
+        bytes[63] = (cs >> 8) & 0xFF;
+        bytes[64] = cs & 0xFF;
+        return bytes;
     }
 
     private _send(data: Array<number>): void {
