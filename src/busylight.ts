@@ -62,92 +62,90 @@ class BusyLight {
         jump:       0x10
     };
 
+    private static DEVICE_NAME = {
+        0x3BCA: 'Busylight Alpha model',
+        0x3BCB: 'Busylight UC model',
+        0x3BCC: 'Busylight UC model',
+        0x3BCD: 'Busylight Omega model',
+        0x3BCE: 'Busylight Alpha model 2',
+        0x3BCF: 'Busylight Omega model 2'
+    };
+
+    private static TONE_LEN_11 = [
+        5700,
+        2400,
+        2400,
+        3000,
+        4500,
+        3900,
+        3500,
+        2200,
+        2200,
+        2000,
+        2000
+    ];
+
+    private static TONE_LEN_12 = [
+        5700,
+        2400,
+        2400,
+        3000,
+        4500,
+        3900,
+        3500,
+        2200,
+        2200,
+        2000,
+        2000,
+        2400
+    ];
+
     private static TONE_LEN = {
-        0x3BCA: {
-            0x00: 5700,
-            0x01: 2400,
-            0x02: 2400,
-            0x03: 3000,
-            0x04: 4500,
-            0x05: 3900,
-            0x06: 3500,
-            0x07: 2200,
-            0x08: 2200,
-            0x09: 2000,
-            0x0A: 2000,
-            0x0B: 2400
-        },
-        0x3BCB: {
-            0x00: 5700,
-            0x01: 2400,
-            0x02: 2400,
-            0x03: 3000,
-            0x04: 4500,
-            0x05: 3900,
-            0x06: 3500,
-            0x07: 2200,
-            0x08: 2200,
-            0x09: 2000,
-            0x0A: 2000,
-            0x0B: 2400
-        },
-        0x3BCC: {
-            0x00: 5700,
-            0x01: 2400,
-            0x02: 2400,
-            0x03: 3000,
-            0x04: 4500,
-            0x05: 3900,
-            0x06: 3500,
-            0x07: 2200,
-            0x08: 2200,
-            0x09: 2000,
-            0x0A: 2000,
-            0x0B: 2400
-        },
-        0x3BCD: {
-            0x00: 5700,
-            0x01: 2400,
-            0x02: 2400,
-            0x03: 3000,
-            0x04: 4500,
-            0x05: 3900,
-            0x06: 3500,
-            0x07: 2200,
-            0x08: 2200,
-            0x09: 2000,
-            0x0A: 2000,
-            0x0B: 2400
-        },
-        0x3BCE: {
-            0x00: 5700,
-            0x01: 2400,
-            0x02: 2400,
-            0x03: 3000,
-            0x04: 4500,
-            0x05: 3900,
-            0x06: 3500,
-            0x07: 2200,
-            0x08: 2200,
-            0x09: 2000,
-            0x0A: 2000,
-            0x0B: 2400
-        },
-        0x3BCF: {
-            0x00: 5700,
-            0x01: 2400,
-            0x02: 2400,
-            0x03: 3000,
-            0x04: 4500,
-            0x05: 3900,
-            0x06: 3500,
-            0x07: 2200,
-            0x08: 2200,
-            0x09: 2000,
-            0x0A: 2000,
-            0x0B: 2400
-        }
-    }
+        0x3BCA: BusyLight.TONE_LEN_11,
+        0x3BCB: BusyLight.TONE_LEN_11,
+        0x3BCC: BusyLight.TONE_LEN_11,
+        0x3BCD: BusyLight.TONE_LEN_11,
+        0x3BCE: BusyLight.TONE_LEN_11,
+        0x3BCF: BusyLight.TONE_LEN_12
+    };
+
+    private static TONE_NAME_11 = [
+        'Twinkling',
+        'Open Office',
+        'Quiet',
+        'Funky',
+        'Fairy Tale',
+        'Kuando Train',
+        'Telephone Nordic',
+        'Telephone Original',
+        'Telephone Pick Me Up',
+        'Instant Message 1',
+        'Instant Message 2'
+    ];
+
+    private static TONE_NAME_12 = [
+        'Twinkling',
+        'OpenOffice',
+        'Quiet',
+        'Funky',
+        'FairyTale',
+        'KuandoTrain',
+        'TelephoneNordic',
+        'TelephoneOriginal',
+        'TelephonePickMeUp',
+        'Instant Message 1',
+        'Instant Message 2',
+        'Instant Message 3'
+    ];
+
+    private static TONE_NAME = {
+        0x3BCA: BusyLight.TONE_NAME_11,
+        0x3BCB: BusyLight.TONE_NAME_11,
+        0x3BCC: BusyLight.TONE_NAME_11,
+        0x3BCD: BusyLight.TONE_NAME_11,
+        0x3BCE: BusyLight.TONE_NAME_11,
+        0x3BCF: BusyLight.TONE_NAME_12
+    };
 
     private static KEEPALIVE: Array<number> = [
         0x8F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -525,6 +523,24 @@ class BusyLight {
             this._send(this._steps);
         }, BusyLight.TONE_LEN[this._device.productId][tone]);
         return BusyLight.TONE_LEN[this._device.productId][tone];
+    }
+
+    public tones(): Array<string> {
+        if (!this._device) return [];
+        if (!BusyLight.TONE_NAME[this._device.productId]) return [];
+        return BusyLight.TONE_NAME[this._device.productId];
+    }
+
+    public durations(): Array<number> {
+        if (!this._device) return [];
+        if (!BusyLight.TONE_LEN[this._device.productId]) return [];
+        return BusyLight.TONE_LEN[this._device.productId];
+    }
+
+    public device(): string {
+        if (!this._device) return '';
+        if (!BusyLight.DEVICE_NAME[this._device.productId]) return '';
+        return BusyLight.DEVICE_NAME[this._device.productId];
     }
 
     public is(device: BusyLightDevice): boolean {

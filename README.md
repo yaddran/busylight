@@ -32,6 +32,21 @@ const busylight = new BusyLight(devices[0]);
 busylight.connect();
 ```
 
+Get device name:
+```
+name = busylight.device();
+```
+
+Get device tone names array:
+```
+tones = busylight.tones();
+```
+
+Get device tone durations array:
+```
+tones = busylight.durations();
+```
+
 Check if device is one of the devices from the list:
 ```
 is_the_device = busylight.is(devices[0]);

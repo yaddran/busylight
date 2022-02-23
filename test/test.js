@@ -16,6 +16,13 @@ const open = () => {
 
     busylight = new BusyLight(selected);
     busylight.connect();
+
+    console.log();
+    console.log(busylight.device());
+    console.log();
+    console.log(busylight.tones());
+    console.log();
+    console.log(busylight.durations());
 };
 
 
@@ -252,7 +259,7 @@ open();
 
 //testToneWithLight();
 
-//testToneOnce(0);
+testToneOnce(0);
 
 //testIsDevice();
 
@@ -260,4 +267,4 @@ open();
 
 // testBlink();
 
-testAlert();
+//testAlert();
