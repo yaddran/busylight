@@ -125,14 +125,14 @@ class BusyLight {
 
     private static TONE_NAME_12 = [
         'Twinkling',
-        'OpenOffice',
+        'Open Office',
         'Quiet',
         'Funky',
-        'FairyTale',
-        'KuandoTrain',
-        'TelephoneNordic',
-        'TelephoneOriginal',
-        'TelephonePickMeUp',
+        'Fairy Tale',
+        'Kuando Train',
+        'Telephone Nordic',
+        'Telephone Original',
+        'Telephone Pick Me Up',
         'Instant Message 1',
         'Instant Message 2',
         'Instant Message 3'
